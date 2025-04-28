@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { getSettings, updateSettings } from '../../services/SettingsService';
 import { doLogout } from '../../services/AuthService';
 import Menu from '../../components/Menu/Menu';
+import Symbols from './Symbols';
 
 function Settings() {
 
@@ -175,6 +176,7 @@ function Settings() {
                         </form>
                     </div>
                 </div>
+                <Symbols />
             </main>
         </React.Fragment>
     )
