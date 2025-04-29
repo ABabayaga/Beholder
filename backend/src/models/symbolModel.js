@@ -9,11 +9,15 @@ const symbolModel = database.define('symbol', {
     },
     basePrecision: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        //ajuste alter.
+        defaultValue: 8
     },
     quotePrecision: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        //ajuste alter.
+        defaultValue: 8
     },
     minNotional: {
         type: Sequelize.STRING,
