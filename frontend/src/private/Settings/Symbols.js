@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getSymbols, syncSymbols } from '../../services/SymbolsService';
 import SymbolRow from './SymbolRow';
-import SelectQuote, {getDefaultQuote, filterSymbolObjects, setDefaultQuote} from '../../components/SelectQuote/SelectQuote';
+import SelectQuote, { getDefaultQuote, filterSymbolObjects, setDefaultQuote } from '../../components/SelectQuote/SelectQuote';
+import SymbolModal from './SymbolModal';
 
 function Symbols() {
 
@@ -18,6 +19,10 @@ function Symbols() {
 
     const [isSyncing, setIsSyncing] = useState(false);
 
+    //Teste
+    const [selectedSymbol, setSelectedSymbol] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         getSymbols(token)
@@ -32,7 +37,7 @@ function Symbols() {
             })
     }, [isSyncing, quote])
 
-    function onSyncClick(event){
+    function onSyncClick(event) {
         const token = localStorage.getItem('token');
         setIsSyncing(true);
         syncSymbols(token)
@@ -45,9 +50,15 @@ function Symbols() {
             })
     }
 
-    function onQuoteChange(event){
+    function onQuoteChange(event) {
         setQuote(event.target.value);
         setDefaultQuote(event.target.value);
+    }
+
+    //Teste
+    function handleEditSymbol(symbolData) {
+        setSelectedSymbol(symbolData);
+        setShowModal(true);
     }
 
     return (<React.Fragment>
@@ -61,8 +72,8 @@ function Symbols() {
                                 <div class="col">
                                     <h2 class="fs-5 fw-bold mb-0">Symbols</h2>
                                 </div>
-                                <div className="col" > 
-                                    <SelectQuote onChange={onQuoteChange}/>
+                                <div className="col" >
+                                    <SelectQuote onChange={onQuoteChange} />
                                 </div>
                             </div>
                         </div>
@@ -79,7 +90,7 @@ function Symbols() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {symbols.map(item => <SymbolRow key={item.symbol} data={item} />)}
+                                    {symbols.map(item => <SymbolRow key={item.symbol} data={item} onClick={() => handleEditSymbol(item)} />)}
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -109,8 +120,7 @@ function Symbols() {
                 </div>
             </div>
         </div>
-
-
+        <SymbolModal />
     </React.Fragment>);
 }
 
