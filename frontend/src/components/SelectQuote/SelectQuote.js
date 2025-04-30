@@ -23,7 +23,7 @@ function SelectQuote(props) {
 
 export function filterSymbolObjects(symbols, quote){
     return symbols.filter(s => {
-        if(quote === 'FAVORITE')
+        if(quote === 'FAVORITES')
             return s.isFavorite;
         else
             return s.symbol.endsWith(quote);
