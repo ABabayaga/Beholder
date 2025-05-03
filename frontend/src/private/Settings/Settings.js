@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { getSettings, updateSettings } from '../../services/SettingsService';
 import { doLogout } from '../../services/AuthService';
 import Menu from '../../components/Menu/Menu';
@@ -20,12 +20,12 @@ function Settings() {
 
     const [success, setSuccess] = useState('');
 
-    const [settings, setSettings] = useState({
+    /*const [settings, setSettings] = useState({
         email: '',
         apiUrl: '',
         accessKey: '',
         keySecret: ''
-    })
+    })*/
 
     useEffect(() => {
 

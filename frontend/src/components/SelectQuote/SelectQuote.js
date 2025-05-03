@@ -7,7 +7,8 @@ const DEFAULT_QUOTE_PROPERTY = "defaultQuote";
  */
 function SelectQuote(props) {
 
-    const [defaultQuote, setDefaultQuote] = useState(getDefaultQuote);
+    //const [defaultQuote, setDefaultQuote] = useState(getDefaultQuote);
+    const [defaultQuote] = useState(getDefaultQuote);
 
     return (
         <select id="selectQuote" className="form-select" defaultValue={defaultQuote} onChange={props.onChange}>
@@ -28,6 +29,10 @@ export function filterSymbolObjects(symbols, quote){
         else
             return s.symbol.endsWith(quote);
     })
+}
+
+export function filterSymbolNames(symbols, quote){
+    return filterSymbolObjects(symbols, quote).map(s =>s.symbol);
 }
 
 export function getDefaultQuote() {
