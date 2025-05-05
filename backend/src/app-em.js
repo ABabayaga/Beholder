@@ -8,6 +8,7 @@ module.exports = (settings, wss) => {
     settings.secretKey = crypto.decrypt(settings.secretKey);
     const exchange = require('./utils/exchange')(settings);
 
+    
     exchange.miniTickerStream((markets) => {
         //console.log(markets);
         if (!wss || !wss.clients) return;
@@ -17,6 +18,16 @@ module.exports = (settings, wss) => {
             }
         });
     })
+
+    /*
+    let book = [];
+    exchange.bookStream(order => {
+        //console.log(markets);
+        if (book.length === 200) {
+            broadcast({ book })
+            book = [];
+        } else book.push({ ...order });
+    })*/
 
     console.log(`App Exchange  Monitor is running.`);
 }

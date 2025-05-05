@@ -21,8 +21,18 @@ module.exports = (settings) => {
         binance.websockets.miniTicker(markets => callback(markets));
     }
 
+    
+    function bookStream(callback) {
+        const symbols = ['BTCUSDT', 'ETHUSDT']; // ou use settings.symbols se for dinâmico
+    
+        binance.websockets.bookTickers(symbols, order => {
+            callback(order);
+        });
+    }
+
     return {
         exchangeInfo,
-        miniTickerStream
+        miniTickerStream,
+        bookStream
     }
 }
