@@ -9,30 +9,43 @@ module.exports = (settings) => {
         APISECRET: settings.secretKey,
         family: 0,
         urls: {
-            base: settings.apiUrl.endsWith('/') ? settings.apiUrl : settings.apiUrl + '/'
+            base: settings.apiUrl.endsWith('/') ? settings.apiUrl : settings.apiUrl + '/',
+            stream: settings.streamUrl.endsWith('/') ? settings.streamUrl : settings.streamUrl + '/',
         }
     })
+
+    function balance(){
+        return binance.exchangeInfo();
+    }
 
     function exchangeInfo(){
         return binance.exchangeInfo();
     }
-
+    
     function miniTickerStream(callback){
         binance.websockets.miniTicker(markets => callback(markets));
     }
 
     
     function bookStream(callback) {
-        const symbols = ['BTCUSDT', 'ETHUSDT']; // ou use settings.symbols se for dinâmico
-    
-        binance.websockets.bookTickers(symbols, order => {
-            callback(order);
-        });
+        binance.websockets.bookTickers(order => {callback(order)});
     }
+
+    function userDataStream(balanceCallback, executionCallback, listStatusCallback = () => {}) {
+        binance.websockets.userData(
+          balance => balanceCallback(balance),
+          executionData => executionCallback(executionData),
+          subscribedData => console.log(`userDataStream:subscribed: ${subscribedData}`),
+          listStatusData => listStatusCallback(listStatusData)
+        );
+      }
+      
 
     return {
         exchangeInfo,
         miniTickerStream,
-        bookStream
+        bookStream,
+        userDataStream,
+        balance
     }
 }

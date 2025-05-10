@@ -13,7 +13,7 @@ function MiniTicker(props) {
 
     const [quote, setQuote] = useState(getDefaultQuote());
 
-
+    /*
     useEffect(() => {
         const token = localStorage.getItem('token');
         getSymbols(token)
@@ -22,7 +22,30 @@ function MiniTicker(props) {
                 if (err.response && err.response.status === 401) return history.push('/');
                 console.error(err);
             })
-    }, [quote])
+    }, [quote])*/
+
+    useEffect(() => {
+    let isMounted = true; // controla se o componente ainda está montado
+
+    const token = localStorage.getItem('token');
+    getSymbols(token)
+        .then(symbols => {
+            if (isMounted) {
+                setSymbols(filterSymbolNames(symbols, quote));
+            }
+        })
+        .catch(err => {
+            if (isMounted) {
+                if (err.response && err.response.status === 401) return history.push('/');
+                console.error(err);
+            }
+        });
+
+    return () => {
+        isMounted = false; // desativa atualizações se desmontar
+    };
+}, [quote]);
+
 
     function onQuoteChange(event) {
         setQuote(event.target.value);
